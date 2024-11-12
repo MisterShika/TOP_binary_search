@@ -52,6 +52,89 @@ class Tree{
 
     // }
 
+    getRoot(){
+        return this.treeRoot;
+    }
+
+    add(value){
+        let navNode = this.getRoot();
+        let newNode = new Node(value);
+        while(true){
+            if(value == navNode.getValue()){
+                throw new Error("Value already exists");
+            }else if(value < navNode.getValue()){
+                if(navNode.getLeft()){
+                    navNode = navNode.getLeft();
+                }else{
+                    navNode.setLeft(newNode);
+                    break;
+                }
+            }else{
+                if(navNode.getRight()){
+                    navNode = navNode.getRight();
+                }else{
+                    navNode.setRight(newNode);
+                    break;
+                }
+            }
+        }
+    }
+
+    find(value){
+        let navNode = this.getRoot();
+        while(true){
+            if(value == navNode.getValue()){
+                return navNode;
+            }else if (value < navNode.value()){
+                navNode = navNode.getLeft();
+            }else if (value > navNode.value()){
+                navNode = navNode.getRight();
+            }else{
+                throw new Error("Not here");
+            }
+        }
+    }
+
+    findMin(node){
+        while(node.getLeft() != null){
+            node = node.getLeft();
+        }
+        return node;
+    }
+
+    remove(value){
+        let navNode = this.getRoot();
+        let parentNode;
+        while(true){
+            if(value == navNode.getValue()){
+                if(navNode.getLeft() == null && navNode.getRight() == null){
+                    navNode = null;
+                    break;
+                }
+                else if (navNode.getLeft() == null && navNode.getRight() != null){
+                    parentNode.setRight(navNode.getRight());
+                    navNode = null;
+                    break;
+                }
+                else if (navNode.getRight() == null && navNode.getLeft() != null){
+                    parentNode.setLeft(navNode.getLeft());
+                    navNode = null;
+                    break;
+                }else{
+
+                }
+            }else if (value < navNode.value()){
+                parentNode = navNode;
+                navNode = navNode.getLeft();
+            }else if (value > navNode.value()){
+                parentNode = navNode;
+                navNode = navNode.getRight();
+            }else{
+                throw new Error("Not here");
+            }
+        }
+    }
+
     merge(leftArray, rightArray){
         let newArray = []
         let leftIndex = 0;
@@ -118,5 +201,6 @@ class Tree{
 }
 
 let theTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+theTree.add(15);
 
 console.log(theTree.prettyPrint());
