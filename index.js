@@ -95,13 +95,6 @@ class Tree{
         }
     }
 
-    findMin(node){
-        while(node.getLeft() != null){
-            node = node.getLeft();
-        }
-        return node;
-    }
-
     remove(value){
         let navNode = this.getRoot();
         let parentNode;
@@ -121,12 +114,21 @@ class Tree{
                     navNode = null;
                     break;
                 }else{
-
+                    let minNodeParent = navNode;
+                    let minNode = navNode.getRight();
+                    while (minNode.getLeft() !== null) {
+                        minNodeParent = minNode;
+                        minNode = minNode.getLeft();
+                    }
+                    navNode.setValue(minNode.getValue());
+                    if (minNodeParent.getLeft() === minNode) minNodeParent.setLeft(minNode.getRight());
+                    else minNodeParent.setRight(minNode.getRight());
+                    break;
                 }
-            }else if (value < navNode.value()){
+            }else if (value < navNode.getValue()){
                 parentNode = navNode;
                 navNode = navNode.getLeft();
-            }else if (value > navNode.value()){
+            }else if (value > navNode.getValue()){
                 parentNode = navNode;
                 navNode = navNode.getRight();
             }else{
@@ -185,6 +187,12 @@ class Tree{
     getRoot(){
         return this.treeRoot;
     }
+
+    levelOrder(callBack){
+        //If there's a left node add it to the queue
+        //If there's a right node add it to the queue
+        
+    }
     
     prettyPrint(node = this.treeRoot, prefix = "", isLeft = true) {
         if (node === null) {
@@ -201,6 +209,7 @@ class Tree{
 }
 
 let theTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-theTree.add(15);
+// theTree.add(15);
+// theTree.remove(4);
 
 console.log(theTree.prettyPrint());
