@@ -188,9 +188,26 @@ class Tree{
         return this.treeRoot;
     }
 
-    levelOrder(callBack){
-        //If there's a left node add it to the queue
-        //If there's a right node add it to the queue
+    levelOrder(passedArray, callBack){
+        if(callBack === null){
+            throw new Error("No callback provided");
+        }
+
+        if (!passedArray || passedArray.length === 0) {
+            return;
+        }
+
+        let newArray = [];
+
+        for (let item of passedArray) {
+            if (item) { // Ensure the node is not null
+                callBack(item); // Process the current node with the callback
+                if (item.getLeft()) newArray.push(item.getLeft()); // Add left child if it exists
+                if (item.getRight()) newArray.push(item.getRight()); // Add right child if it exists
+            }
+        }
+
+        this.levelOrder(newArray, callBack);
         
     }
     
@@ -213,3 +230,4 @@ let theTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // theTree.remove(4);
 
 console.log(theTree.prettyPrint());
+theTree.levelOrder([theTree.getRoot()], (node) => console.log(node.value));
