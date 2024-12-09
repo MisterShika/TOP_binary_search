@@ -210,6 +210,48 @@ class Tree{
         this.levelOrder(newArray, callBack);
         
     }
+
+    inOrder(passedNode, callBack){
+        if(callBack === null){
+            throw new Error("No callback provided");
+        }
+
+        if (passedNode === null) {
+            return;
+        }
+
+        this.inOrder(passedNode.getLeft(), callBack);
+        callBack(passedNode);
+        this.inOrder(passedNode.getRight(), callBack);
+    }
+
+    preOrder(passedNode, callBack){
+        if(callBack === null){
+            throw new Error("No callback provided");
+        }
+
+        if (passedNode === null) {
+            return;
+        }
+
+        callBack(passedNode);
+        this.preOrder(passedNode.getLeft(), callBack);
+        this.preOrder(passedNode.getRight(), callBack);
+    }
+
+    postOrder(passedNode, callBack){
+        if(callBack === null){
+            throw new Error("No callback provided");
+        }
+
+        if (passedNode === null) {
+            return;
+        }
+
+        this.postOrder(passedNode.getLeft(), callBack);
+        this.postOrder(passedNode.getRight(), callBack);
+        callBack(passedNode);
+    }
     
     prettyPrint(node = this.treeRoot, prefix = "", isLeft = true) {
         if (node === null) {
@@ -230,4 +272,7 @@ let theTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // theTree.remove(4);
 
 console.log(theTree.prettyPrint());
-theTree.levelOrder([theTree.getRoot()], (node) => console.log(node.value));
+// theTree.levelOrder([theTree.getRoot()], (node) => console.log(node.value));
+//theTree.inOrder(theTree.getRoot(), (node) => console.log(node.value));
+//theTree.preOrder(theTree.getRoot(), (node) => console.log(node.value));
+theTree.postOrder(theTree.getRoot(), (node) => console.log(node.value));
