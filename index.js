@@ -85,9 +85,9 @@ class Tree{
         while(true){
             if(value == navNode.getValue()){
                 return navNode;
-            }else if (value < navNode.value()){
+            }else if (value < navNode.getValue()){
                 navNode = navNode.getLeft();
-            }else if (value > navNode.value()){
+            }else if (value > navNode.getValue()){
                 navNode = navNode.getRight();
             }else{
                 throw new Error("Not here");
@@ -200,10 +200,10 @@ class Tree{
         let newArray = [];
 
         for (let item of passedArray) {
-            if (item) { // Ensure the node is not null
-                callBack(item); // Process the current node with the callback
-                if (item.getLeft()) newArray.push(item.getLeft()); // Add left child if it exists
-                if (item.getRight()) newArray.push(item.getRight()); // Add right child if it exists
+            if (item) {
+                callBack(item);
+                if (item.getLeft()) newArray.push(item.getLeft());
+                if (item.getRight()) newArray.push(item.getRight());
             }
         }
 
@@ -253,6 +253,23 @@ class Tree{
         callBack(passedNode);
     }
     
+    
+    height(node){
+        let mainNode = this.find(node);
+        return this.leafSearch(mainNode);
+    }
+
+    leafSearch(node){
+        if(node === null){
+            return 0;
+        } 
+
+        let leftHeight = this.leafSearch(node.getLeft());
+        let rightHeight = this.leafSearch(node.getRight());
+
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+    
     prettyPrint(node = this.treeRoot, prefix = "", isLeft = true) {
         if (node === null) {
             return;
@@ -275,4 +292,5 @@ console.log(theTree.prettyPrint());
 // theTree.levelOrder([theTree.getRoot()], (node) => console.log(node.value));
 //theTree.inOrder(theTree.getRoot(), (node) => console.log(node.value));
 //theTree.preOrder(theTree.getRoot(), (node) => console.log(node.value));
-theTree.postOrder(theTree.getRoot(), (node) => console.log(node.value));
+//theTree.postOrder(theTree.getRoot(), (node) => console.log(node.value));
+console.log(theTree.height(theTree.getRoot().getValue()));
