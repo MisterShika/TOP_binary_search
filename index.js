@@ -254,12 +254,12 @@ class Tree{
     }
     
     
-    height(node){
-        let mainNode = this.find(node);
+    height(value){
+        let mainNode = this.find(value);
         return this.leafSearch(mainNode);
     }
 
-    leafSearch(node){
+    heightSearch(node){
         if(node === null){
             return 0;
         } 
@@ -268,6 +268,30 @@ class Tree{
         let rightHeight = this.leafSearch(node.getRight());
 
         return Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    depth(value){
+        return this.depthSearch(value, this.getRoot());
+    }
+
+    depthSearch(value, node){
+        if (node === null) {
+            return -1;
+        }
+
+        if(value === node.getValue()){
+            return 0;
+        }
+
+        let leftDepth = this.depthSearch(value, node.getLeft());
+        let rightDepth = this.depthSearch(value, node.getRight());
+
+        if (leftDepth >= 0) {
+            return leftDepth + 1;
+        }
+        if (rightDepth >= 0) {
+            return rightDepth + 1;
+        }
     }
     
     prettyPrint(node = this.treeRoot, prefix = "", isLeft = true) {
@@ -293,4 +317,5 @@ console.log(theTree.prettyPrint());
 //theTree.inOrder(theTree.getRoot(), (node) => console.log(node.value));
 //theTree.preOrder(theTree.getRoot(), (node) => console.log(node.value));
 //theTree.postOrder(theTree.getRoot(), (node) => console.log(node.value));
-console.log(theTree.height(theTree.getRoot().getValue()));
+// console.log(theTree.height(theTree.getRoot().getValue()));
+console.log(theTree.depth(324))
