@@ -48,6 +48,14 @@ class Tree{
         this.treeRoot = this.populateTree(this.treeArray);
     }
 
+    setArray(array){
+        this.treeArray = this.mergeSort(array);
+    }
+
+    clearRoot(){
+        this.treeRoot = null;
+    }
+
     // duplicateCheck(array){
 
     // }
@@ -184,10 +192,6 @@ class Tree{
         return workingNode;
     }
 
-    getRoot(){
-        return this.treeRoot;
-    }
-
     levelOrder(passedArray, callBack){
         if(callBack === null){
             throw new Error("No callback provided");
@@ -293,6 +297,25 @@ class Tree{
             return rightDepth + 1;
         }
     }
+
+    rebalance(){
+        let treeArray = this.rebalanceHelper(this.getRoot());
+        this.clearRoot();
+        this.setArray(treeArray);
+        this.initTree();
+    }
+
+    rebalanceHelper(node){
+
+        if(node === null){
+            return [];
+        }
+
+        const arrayLeft = this.rebalanceHelper(node.getLeft());
+        const arrayRight = this.rebalanceHelper(node.getRight());
+
+        return arrayLeft.concat([node.getValue()], arrayRight);
+    }
     
     prettyPrint(node = this.treeRoot, prefix = "", isLeft = true) {
         if (node === null) {
@@ -312,10 +335,10 @@ let theTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // theTree.add(15);
 // theTree.remove(4);
 
-console.log(theTree.prettyPrint());
+theTree.prettyPrint();
 // theTree.levelOrder([theTree.getRoot()], (node) => console.log(node.value));
 //theTree.inOrder(theTree.getRoot(), (node) => console.log(node.value));
 //theTree.preOrder(theTree.getRoot(), (node) => console.log(node.value));
 //theTree.postOrder(theTree.getRoot(), (node) => console.log(node.value));
 // console.log(theTree.height(theTree.getRoot().getValue()));
-console.log(theTree.depth(324))
+// console.log(theTree.depth(324))
