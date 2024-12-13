@@ -260,7 +260,7 @@ class Tree{
     
     height(value){
         let mainNode = this.find(value);
-        return this.leafSearch(mainNode);
+        return this.heightSearch(mainNode);
     }
 
     heightSearch(node){
@@ -268,8 +268,8 @@ class Tree{
             return 0;
         } 
 
-        let leftHeight = this.leafSearch(node.getLeft());
-        let rightHeight = this.leafSearch(node.getRight());
+        let leftHeight = this.heightSearch(node.getLeft());
+        let rightHeight = this.heightSearch(node.getRight());
 
         return Math.max(leftHeight, rightHeight) + 1;
     }
@@ -296,6 +296,30 @@ class Tree{
         if (rightDepth >= 0) {
             return rightDepth + 1;
         }
+    }
+
+    isBalanced(){
+        let theRoot = this.getRoot();
+        this.isBalancedFunction(theRoot);
+    }
+
+    isBalancedFunction(node){
+        if(node === null){
+            console.log("True");
+            return true;
+        }
+
+        let leftHeight = this.heightSearch(node.getLeft());
+        let rightHeight = this.heightSearch(node.getRight());
+
+        let heightDiff = Math.abs(leftHeight - rightHeight);
+
+        if(heightDiff > 1){
+            console.log("False");
+            return false;
+        }
+
+        return this.isBalancedFunction(node.getLeft()) && this.isBalancedFunction(node.getRight());
     }
 
     rebalance(){
@@ -334,6 +358,11 @@ class Tree{
 let theTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // theTree.add(15);
 // theTree.remove(4);
+// theTree.add(6346);
+// theTree.add(6347);
+// theTree.add(6348);
+// theTree.add(6349);
+// theTree.add(6350);
 
 theTree.prettyPrint();
 // theTree.levelOrder([theTree.getRoot()], (node) => console.log(node.value));
@@ -342,3 +371,4 @@ theTree.prettyPrint();
 //theTree.postOrder(theTree.getRoot(), (node) => console.log(node.value));
 // console.log(theTree.height(theTree.getRoot().getValue()));
 // console.log(theTree.depth(324))
+theTree.isBalanced();
